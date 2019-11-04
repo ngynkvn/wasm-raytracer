@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <canvas width=400 height=400 id="canvas"></canvas>
+    <script src="./test.js"> </script>
+    <script>
+        Module.onRuntimeInitialized = () => {
+            const width = 400;
+            const height = 400;
+            const vec = Module.draw();
+            const canvas = document.getElementById("canvas");
+            const ctx = canvas.getContext('2d');
+            const imgData = ctx.createImageData(width, height);
+            console.log(vec.size());
+            for(let i = 0; i< vec.size(); i+=4) {
+                imgData.data[i + 0] = vec.get(i + 0);
+                imgData.data[i + 1] = vec.get(i + 1);
+                imgData.data[i + 2] = vec.get(i + 2);
+                imgData.data[i + 3] = vec.get(i + 3);
+            }
+            ctx.putImageData(imgData, 0, 0);
+        }
+    </script>
+</body>
+
+</html>

@@ -1,9 +1,11 @@
-#pragma once
+#ifndef DEFS_H
+#define DEFS_H
 #include <algorithm>
 #include <cfloat>
 #include <cmath>
 #include <cstdint>
 #include <ostream>
+#include <vector>
 #include <utility>
 
 /**
@@ -16,31 +18,28 @@ struct Point {
   double z;
   Point(double x, double y, double z) : x(x), y(y), z(z) {}
   Point() : x(0), y(0), z(0) {}
-  Point operator+(const Point &other) {
+  Point operator+(const Point &other) const {
     return Point(x + other.x, y + other.y, z + other.z);
   }
 
-  Point operator-(const Point &other) {
+  Point operator-(const Point &other) const {
     return Point(x - other.x, y - other.y, z - other.z);
   }
 
-  double operator*(const Point &other) {
+  double operator*(const Point &other) const {
     return x * other.x + y * other.y + z * other.z;
   }
 
-  double length() { return std::sqrt((*this) * (*this)); }
+  double length() const { return std::sqrt((*this) * (*this)); }
 
-  Point operator/(double value) {
+  Point operator/(double value) const {
     return Point(x / value, y / value, z / value);
   }
-  Point operator*(double value) {
+  Point operator*(double value) const {
     return Point(x * value, y * value, z * value);
   }
 };
-std::ostream &operator<<(std::ostream &os, const Point &p) {
-  os << "<" << p.x << ", " << p.y << ", " << p.z << ">";
-  return os;
-}
+std::ostream &operator<<(std::ostream &os, const Point &p);
 
 /**
  * Color of RGB values
@@ -82,3 +81,5 @@ struct Sphere {
   Sphere(Point center, double radius, Color color)
       : center(center), radius(radius), color(color) {}
 };
+
+#endif

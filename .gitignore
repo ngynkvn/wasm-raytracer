@@ -1,0 +1,3 @@
+build
+wasm_build
+!wasm_build/test.html

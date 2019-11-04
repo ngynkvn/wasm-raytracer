@@ -6,7 +6,7 @@ project(Raytracer)
 set(CMAKE_CXX_STANDARD 17)
 
 # add the executable
-add_executable(raytracer main.cpp)
+add_executable(raytracer main.cpp raytracer.cpp ostreams.cpp)
 
 ## Link libraries
 find_package(PNG REQUIRED)
