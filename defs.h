@@ -53,6 +53,7 @@ struct Color {
     return Color(r * value, g * value, b * value);
   }
 };
+
 /**
  * Color constants
  */

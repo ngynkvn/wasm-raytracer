@@ -9,29 +9,60 @@
 </head>
 
 <body>
-    <canvas width=400 height=400 id="canvas"></canvas>
+    <canvas width=600 height=600 id="canvas"></canvas>
+    <input type="number" id="1"/>
+    <input type="number" id="2"/>
+    <input type="number" id="3"/>
+    <button id="go">Go</button>
     <p id="message"></p>
     <script src="./test.js"> </script>
     <script>
-        Module.onRuntimeInitialized = () => {
-            const width = 400;
-            const height = 400;
-            const p = document.getElementById('message');
-            const start = Date.now();
-            const vec = Module.draw();
-            const canvas = document.getElementById("canvas");
-            const ctx = canvas.getContext('2d');
+        const width = 600;
+        const height = 600;
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext('2d');
+
+        function drawCanvasWTrace() {
+            console.log("Drawing by calling trace from raytracer.")
             const imgData = ctx.createImageData(width, height);
-            console.log(vec.size());
-            for(let i = 0; i< vec.size(); i+=4) {
-                imgData.data[i + 0] = vec.get(i + 0);
-                imgData.data[i + 1] = vec.get(i + 1);
-                imgData.data[i + 2] = vec.get(i + 2);
-                imgData.data[i + 3] = vec.get(i + 3);
+            let i = 0;
+            for (var y = height / 2; y > -height / 2; y--) {
+                for (var x = -width / 2; x < width / 2; x++) {
+                    const [r, g, b] = Module.trace(x, y);
+                    imgData.data[i++] = r;
+                    imgData.data[i++] = g;
+                    imgData.data[i++] = b;
+                    imgData.data[i++] = 255;
+                }
             }
             ctx.putImageData(imgData, 0, 0);
-            const stop = Date.now();
-            p.innerText = `Took ${stop - start} seconds`.
+        }
+
+        function drawCanvasWVec() {
+            console.log("Drawing by requesting a vector from raytracer.")
+            const imgData = ctx.createImageData(width, height);
+            const vec = Module.create_vec();
+            const len = vec.size();
+            for(let i = 0; i < len; i++) {
+                imgData.data[i] = vec.get(i);
+            }
+            ctx.putImageData(imgData, 0, 0);
+        }
+
+        function drawCanvasWView() {
+            console.log("Drawing by requesting a mem view to raytracer.")
+            const imgData = ctx.createImageData(width, height);
+            const vec = Module.create_view();
+            for(let i = 0; i < vec.length; i++) {
+                imgData.data[i] = vec[i];
+            }
+            ctx.putImageData(imgData, 0, 0);
+        }
+        Module.onRuntimeInitialized = () => {
+            const p = document.getElementById('message');
+            const start = Date.now();
+            drawCanvasWView();
+            p.innerText = "Took " +  (Date.now() - start) + " ms"; 
         }
     </script>
 </body>
