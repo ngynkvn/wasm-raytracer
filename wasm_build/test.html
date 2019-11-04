@@ -10,11 +10,14 @@
 
 <body>
     <canvas width=400 height=400 id="canvas"></canvas>
+    <p id="message"></p>
     <script src="./test.js"> </script>
     <script>
         Module.onRuntimeInitialized = () => {
             const width = 400;
             const height = 400;
+            const p = document.getElementById('message');
+            const start = Date.now();
             const vec = Module.draw();
             const canvas = document.getElementById("canvas");
             const ctx = canvas.getContext('2d');
@@ -27,6 +30,8 @@
                 imgData.data[i + 3] = vec.get(i + 3);
             }
             ctx.putImageData(imgData, 0, 0);
+            const stop = Date.now();
+            p.innerText = `Took ${stop - start} seconds`.
         }
     </script>
 </body>
