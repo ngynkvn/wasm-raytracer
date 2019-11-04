@@ -1,9 +1,15 @@
 #pragma once
+#include <algorithm>
+#include <cfloat>
+#include <cmath>
+#include <cstdint>
+#include <ostream>
+#include <utility>
 
 /**
-*   Simple 3-d point / vector struct with operations implemented for 
-*   addition, subtraction, dot product, and scaling.
-*/
+ *   Simple 3-d point / vector struct with operations implemented for
+ *   addition, subtraction, dot product, and scaling.
+ */
 struct Point {
   double x;
   double y;
@@ -37,8 +43,8 @@ std::ostream &operator<<(std::ostream &os, const Point &p) {
 }
 
 /**
-* Color of RGB values
-*/
+ * Color of RGB values
+ */
 struct Color {
   uint8_t r;
   uint8_t g;
@@ -49,8 +55,8 @@ struct Color {
   }
 };
 /**
-* Color constants
-*/
+ * Color constants
+ */
 const Color WHITE(255, 255, 255);
 const Color RED(255, 0, 0);
 const Color GREEN(0, 255, 0);
@@ -66,9 +72,9 @@ struct Light {
 };
 
 /**
-* Sphere defined by a center and a radius.
-* Color attribute is used for render
-*/
+ * Sphere defined by a center and a radius.
+ * Color attribute is used for render
+ */
 struct Sphere {
   Point center;
   double radius;
