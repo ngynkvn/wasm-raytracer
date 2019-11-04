@@ -16,4 +16,16 @@ cmake ../
 
 make
 ```
-Outputs a binary named raytracer
+Outputs a binary named raytracer.
+
+## Web assembly
+Have the Emscripten SDK tools available to use from your terminal and simply run the two commands below: 
+```
+make
+make run
+```
+Should be viewable at [localhost:8080](localhost:8080)
+
+## Todo
+- Add parameterization (both from command line and JS environment).
+- Make a DSL for specifying the scene to render. 
