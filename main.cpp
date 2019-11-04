@@ -2,10 +2,10 @@
 #include <cfloat>
 #include <cmath>
 #include <iostream>
-#include <png++/png.hpp>
-#include <vector>
-#include <utility>
 #include <optional>
+#include <png++/png.hpp>
+#include <utility>
+#include <vector>
 
 struct Point {
   double x;
@@ -33,13 +33,11 @@ struct Point {
   Point operator*(double value) {
     return Point(x * value, y * value, z * value);
   }
-
 };
-std::ostream& operator<<(std::ostream& os, const Point& p)
-  {
-      os << "<" << p.x << ", " << p.y << ", " << p.z << ">";
-      return os;
-  }
+std::ostream &operator<<(std::ostream &os, const Point &p) {
+  os << "<" << p.x << ", " << p.y << ", " << p.z << ">";
+  return os;
+}
 
 struct Color {
   int r;
@@ -84,7 +82,8 @@ struct Scene {
 };
 Scene scene;
 
-std::pair<double, double> intersect_ray_sphere(Point &origin, Point &dir, Sphere &sphere) {
+std::pair<double, double> intersect_ray_sphere(Point &origin, Point &dir,
+                                               Sphere &sphere) {
   auto center = sphere.origin;
   auto radius = sphere.radius;
   auto oc = origin - center;
@@ -131,11 +130,11 @@ Color trace_ray(Point &origin, Point &dir, double t_min, double t_max) {
     auto t_s = intersect_ray_sphere(origin, dir, s);
     auto fst = t_s.first;
     auto snd = t_s.second;
-    if (fst < t && t_min < fst && fst < t_max) { 
+    if (fst < t && t_min < fst && fst < t_max) {
       t = fst;
       m = s;
     }
-    if (snd < t && t_min < snd && snd < t_max) { 
+    if (snd < t && t_min < snd && snd < t_max) {
       t = snd;
       m = s;
     }
