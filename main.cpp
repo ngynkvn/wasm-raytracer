@@ -14,7 +14,7 @@ struct Point {
   Point(double x, double y, double z) : x(x), y(y), z(z) {}
   Point() : x(0), y(0), z(0) {}
   Point operator+(const Point &other) {
-    return Point(x + other.x, y + other.y, z - other.z);
+    return Point(x + other.x, y + other.y, z + other.z);
   }
 
   Point operator-(const Point &other) {
@@ -33,7 +33,13 @@ struct Point {
   Point operator*(double value) {
     return Point(x * value, y * value, z * value);
   }
+
 };
+std::ostream& operator<<(std::ostream& os, const Point& p)
+  {
+      os << "<" << p.x << ", " << p.y << ", " << p.z << ">";
+      return os;
+  }
 
 struct Color {
   int r;
@@ -135,7 +141,7 @@ Color trace_ray(Point &origin, Point &dir, double t_min, double t_max) {
     }
   }
   if (m) {
-    auto P = origin + dir * t;
+    auto P = origin + (dir * t);
     auto N = P - m.value().origin;
     N = N / N.length();
     return m.value().color * compute_lighting(P, N);
@@ -145,8 +151,8 @@ Color trace_ray(Point &origin, Point &dir, double t_min, double t_max) {
 
 int main() {
   auto CameraPosition = Point(0, 0, 0);
-  auto Cw = 800;
-  auto Ch = 800;
+  auto Cw = 200;
+  auto Ch = 200;
   auto Vw = 1;
   auto Vh = 1;
   auto z_dist = 1;
