@@ -78,7 +78,7 @@ Color SceneParser::constructColor() {
 Sphere SceneParser::constructSphere() {
   consume(TokenType::LParen);
   Point origin = constructPoint();
-  int radius = stoi(consume(TokenType::Number).datum);
+  double radius = stod(consume(TokenType::Number).datum);
   Color color = constructColor();
   consume(TokenType::RParen);
   return Sphere(origin, radius, color);
