@@ -1,4 +1,4 @@
-# Raytracer
+# Raytracer 🔴
 
 Based off https://www.gabrielgambetta.com/computer-graphics-from-scratch/introduction.html
 
@@ -27,5 +27,5 @@ make run
 Should be viewable at [localhost:8080](localhost:8080)
 
 ## Todo
-- Add parameterization (both from command line and JS environment).
-- Make a DSL for specifying the scene to render. 
+- 🚧 Add parameterization (both from command line and JS environment).
+- ✔️ Make a DSL for specifying the scene to render. 
