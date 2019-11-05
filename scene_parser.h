@@ -26,7 +26,7 @@ private:
   Token word();
   Token number();
   void scanToken();
-  
+
   Sphere constructSphere();
   Light constructLight();
   Point constructCamera();

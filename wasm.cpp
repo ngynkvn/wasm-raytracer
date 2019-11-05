@@ -6,8 +6,8 @@
 #include <vector>
 using namespace emscripten;
 Point canvas_to_viewport(double x, double y) {
-    return Point(x * Vw / Cw, y * Vh / Ch, z_dist);
-  };
+  return Point(x * Vw / Cw, y * Vh / Ch, z_dist);
+};
 Scene scene_from_str(const std::string &str) {
   SceneParser sp(str);
   return sp.parse();
@@ -66,7 +66,7 @@ val create_view() {
   return val(typed_memory_view(Cw * Ch * 4, buffer));
 }
 
-val create_view_from(const std::string& str) {
+val create_view_from(const std::string &str) {
   static uint8_t buffer[Cw * Ch * 4];
   size_t ptr = 0;
   Scene scene = scene_from_str(str);
@@ -90,6 +90,6 @@ EMSCRIPTEN_BINDINGS(m) {
   value_array<ColorStruct>("Color")
       .element(&ColorStruct::r)
       .element(&ColorStruct::g)
-      .element(&ColorStruct::b);  
+      .element(&ColorStruct::b);
   register_vector<uint8_t>("ColorVec");
 }

@@ -23,7 +23,7 @@ void SceneParser::scanToken() {
   while (pos != src.length() && isspace(src[pos])) {
     pos++;
   }
-  if(pos == src.length()) { // End of file.
+  if (pos == src.length()) { // End of file.
     return;
   }
   if (isalpha(src[pos])) {

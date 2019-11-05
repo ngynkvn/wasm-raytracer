@@ -9,21 +9,22 @@
 </head>
 
 <body>
-    
+
     <div>
-            <canvas width=600 height=600 id="canvas" style="float: left;"></canvas>
+        <canvas width=600 height=600 id="canvas" style="float: left;"></canvas>
     </div>
     <div id="app" style="float: right;">
 
-            <textarea id="scene" rows=25 cols=30 > {{scene}} </textarea>
-            <button @click="render">Go</button>
-            <p id="message"> </p>
+        <textarea id="scene" rows=25 cols=30> {{scene}} </textarea>
+        <button @click="render">Go</button>
+        <p id="message"> </p>
     </div>
-    
+
     <script src="./test.js"></script>
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="./vue.js"></script>
 <script src="./wasm_binds.js"></script>
+
 </html>

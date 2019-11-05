@@ -3,8 +3,8 @@
 #include "scene_parser.h"
 #include <chrono>
 #include <iostream>
-#include <sstream>
 #include <png++/png.hpp>
+#include <sstream>
 /**
  * Create the canvas, a scaling function,
  * then iterate over each pixel
@@ -17,12 +17,11 @@ int main() {
 
   std::string token;
   std::stringstream ss;
-  while(std::getline(std::cin, token)) {
+  while (std::getline(std::cin, token)) {
     const std::string::size_type position = token.find('\r');
-        if (position != std::string::npos)
-        {
-            token.erase(position);
-        }
+    if (position != std::string::npos) {
+      token.erase(position);
+    }
     ss << token << '\n';
   }
 

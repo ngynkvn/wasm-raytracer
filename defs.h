@@ -82,16 +82,15 @@ struct Sphere {
       : center(center), radius(radius), color(color) {}
 };
 
-#define Cw  600
-#define Ch  600
-#define Vw  1
-#define Vh  1
+#define Cw 600
+#define Ch 600
+#define Vw 1
+#define Vh 1
 #define z_dist 1
 struct Scene {
-    Point camera;
-    std::vector<Sphere> spheres;
-    std::vector<Light> lights;
+  Point camera;
+  std::vector<Sphere> spheres;
+  std::vector<Light> lights;
 };
-
 
 #endif
