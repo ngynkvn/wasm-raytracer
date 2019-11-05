@@ -2,6 +2,8 @@
 #define SCENE_H
 #include "defs.h"
 #include <iostream>
+#include <string>
+#include <sstream>
 
 #define Cw  600
 #define Ch  600
@@ -25,5 +27,12 @@ const std::vector<Light> scene_lights = {
     Light(Point(2, 1, 0), .6, POINT),
     Light(Point(1, 4, 4), .2, DIRECTIONAL)
 };
+
+struct Scene {
+    Point camera;
+    std::vector<Sphere> spheres;
+    std::vector<Light> lights;
+};
+
 
 #endif

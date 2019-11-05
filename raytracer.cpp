@@ -42,9 +42,9 @@ std::pair<double, double> intersect_ray_sphere(const Point &origin, const Point 
  * with the direction from the light source.
  * Depending on light source type, adjust vector as appropriate.
  */
-double compute_lighting(const Point& P, const Point& N) {
+double compute_lighting(const Point& P, const Point& N, const Scene& scene) {
   auto i = 0.0;
-  for (auto &l : scene_lights) {
+  for (auto &l : scene.lights) {
     if (l.type == AMBIENT) {
       i += l.intensity;
     } else {
@@ -69,11 +69,11 @@ double compute_lighting(const Point& P, const Point& N) {
  * This is the algorithm that outputs the colors
  * necessary to create the image.
  */
-Color trace_ray(const Point &origin, const Point &dir, double t_min, double t_max) {
+Color trace_ray(const Scene& scene, const Point &dir, double t_min, double t_max) {
   auto t = DBL_MAX;
   std::optional<Sphere> m;
-  for (auto &s : scene_spheres) {
-    auto t_s = intersect_ray_sphere(origin, dir, s);
+  for (auto &s : scene.spheres) {
+    auto t_s = intersect_ray_sphere(scene.camera, dir, s);
     auto fst = t_s.first;
     auto snd = t_s.second;
     if (fst < t && t_min < fst && fst < t_max) {
@@ -86,10 +86,10 @@ Color trace_ray(const Point &origin, const Point &dir, double t_min, double t_ma
     }
   }
   if (m) {
-    auto P = origin + (dir * t);
+    auto P = scene.camera + (dir * t);
     auto N = P - m.value().center;
     N = N / N.length();
-    return m.value().color * compute_lighting(P, N);
+    return m.value().color * compute_lighting(P, N, scene);
   }
   return WHITE;
 }
