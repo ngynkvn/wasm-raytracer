@@ -1,5 +1,5 @@
 build
 wasm_build
-!wasm_build/test.html
+!wasm_build/index.html
 !wasm_build/vue.js
 !wasm_build/wasm_binds.js
