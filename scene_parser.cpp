@@ -1,80 +1,59 @@
-#include "scene.h"
+#include "scene_parser.h"
 #include <deque>
 #include <iostream>
 #include <string>
-
-enum TokenType { Word, Number, LParen, RParen };
-
-struct Token {
-  TokenType type;
-  std::string datum;
-};
-
-class SceneParser {
-public:
-  SceneParser(const std::string &src) : src(src), pos(0) {}
-  Scene parse();
-
-private:
-  std::string src;
-  Scene scene;
-  unsigned int pos;
-
-  std::deque<Token> tokens;
-  void tokenize();
-
-  Token word() {
-    auto start = pos;
-    while (pos != src.length() && !isspace(src[pos]) && isalpha(src[pos])) {
-      pos++;
-    }
-    return Token{TokenType::Word, src.substr(start, pos - start)};
+Token SceneParser::number() {
+  auto start = pos;
+  if (src[start] == '-' || src[start] == '.') {
+    pos++;
   }
-  Token number() {
-    auto start = pos;
-    if (src[start] == '-' || src[start] == '.') {
-      pos++;
-    }
-    while (pos != src.length() && isdigit(src[pos])) {
-      pos++;
-    }
-    return Token{TokenType::Number, src.substr(start, pos - start)};
+  while (pos != src.length() && isdigit(src[pos])) {
+    pos++;
   }
-  Token scanToken() {
-    while (pos != src.length() && isspace(src[pos])) {
-      pos++;
-    }
-    if (isalpha(src[pos])) {
-      return word();
-    } else if (isdigit(src[pos]) || src[pos] == '-' || src[pos] == '.') {
-      return number();
-    } else if (src[pos] == '{') {
-      pos++;
-      return Token{TokenType::LParen, "{"};
-    } else if (src[pos] == '}') {
-      pos++;
-      return Token{TokenType::RParen, "}"};
-    } else {
-      throw std::runtime_error("Unexpected token");
-    }
+  return Token{TokenType::Number, src.substr(start, pos - start)};
+}
+Token SceneParser::word() {
+  auto start = pos;
+  while (pos != src.length() && !isspace(src[pos]) && isalpha(src[pos])) {
+    pos++;
   }
-  Sphere constructSphere();
-  Light constructLight();
-  Point constructCamera();
-  Color constructColor();
-  Point constructPoint();
-  Token consume(TokenType);
-};
+  return Token{TokenType::Word, src.substr(start, pos - start)};
+}
+void SceneParser::scanToken() {
+  while (pos != src.length() && isspace(src[pos])) {
+    pos++;
+  }
+  if(pos == src.length()) { // End of file.
+    return;
+  }
+  if (isalpha(src[pos])) {
+    tokens.push_back(word());
+  } else if (isdigit(src[pos]) || src[pos] == '-' || src[pos] == '.') {
+    tokens.push_back(number());
+  } else if (src[pos] == '{') {
+    pos++;
+    tokens.push_back(Token{TokenType::LParen, "{"});
+  } else if (src[pos] == '}') {
+    pos++;
+    tokens.push_back(Token{TokenType::RParen, "}"});
+  } else if (src[pos] == ';') {
+    while (pos != src.length() && src[pos] != '\n') {
+      pos++;
+    }
+  } else {
+    throw std::runtime_error("Unexpected token");
+  }
+}
 
 void SceneParser::tokenize() {
   while (pos != src.length()) {
-    tokens.push_back(scanToken());
+    scanToken();
   }
 }
 
 /** Take off token, expecting this value. */
 Token SceneParser::consume(TokenType t) {
-  if(tokens.front().type == t) {
+  if (tokens.front().type == t) {
     auto t = tokens.front();
     tokens.pop_front();
     return t;
@@ -104,10 +83,13 @@ Sphere SceneParser::constructSphere() {
   consume(TokenType::RParen);
   return Sphere(origin, radius, color);
 }
-LightType getLightType(const std::string& s) {
-  if(s == "AMBIENT") return LightType::AMBIENT;
-  if(s == "POINT") return LightType::POINT;
-  if(s == "DIRECTIONAL") return LightType::DIRECTIONAL;
+LightType getLightType(const std::string &s) {
+  if (s == "AMBIENT")
+    return LightType::AMBIENT;
+  if (s == "POINT")
+    return LightType::POINT;
+  if (s == "DIRECTIONAL")
+    return LightType::DIRECTIONAL;
   return LightType::AMBIENT;
 }
 Light SceneParser::constructLight() {

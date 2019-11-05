@@ -5,9 +5,8 @@
 #include <cmath>
 #include <cstdint>
 #include <ostream>
-#include <vector>
 #include <utility>
-
+#include <vector>
 /**
  *   Simple 3-d point / vector struct with operations implemented for
  *   addition, subtraction, dot product, and scaling.
@@ -82,5 +81,17 @@ struct Sphere {
   Sphere(Point center, double radius, Color color)
       : center(center), radius(radius), color(color) {}
 };
+
+#define Cw  600
+#define Ch  600
+#define Vw  1
+#define Vh  1
+#define z_dist 1
+struct Scene {
+    Point camera;
+    std::vector<Sphere> spheres;
+    std::vector<Light> lights;
+};
+
 
 #endif

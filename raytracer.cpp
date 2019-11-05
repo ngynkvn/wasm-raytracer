@@ -1,5 +1,4 @@
 #include "defs.h"
-#include "scene.h"
 #include <optional>
 #include <utility>
 #include <vector>
@@ -17,7 +16,8 @@
  * Plugging p into radius eq and solving for t
  * gives a value t that equals points on surface of the sphere.
  */
-std::pair<double, double> intersect_ray_sphere(const Point &origin, const Point &dir,
+std::pair<double, double> intersect_ray_sphere(const Point &origin,
+                                               const Point &dir,
                                                const Sphere &sphere) {
   auto oc = origin - sphere.center;
 
@@ -42,7 +42,7 @@ std::pair<double, double> intersect_ray_sphere(const Point &origin, const Point 
  * with the direction from the light source.
  * Depending on light source type, adjust vector as appropriate.
  */
-double compute_lighting(const Point& P, const Point& N, const Scene& scene) {
+double compute_lighting(const Point &P, const Point &N, const Scene &scene) {
   auto i = 0.0;
   for (auto &l : scene.lights) {
     if (l.type == AMBIENT) {
@@ -69,7 +69,8 @@ double compute_lighting(const Point& P, const Point& N, const Scene& scene) {
  * This is the algorithm that outputs the colors
  * necessary to create the image.
  */
-Color trace_ray(const Scene& scene, const Point &dir, double t_min, double t_max) {
+Color trace_ray(const Scene &scene, const Point &dir, double t_min,
+                double t_max) {
   auto t = DBL_MAX;
   std::optional<Sphere> m;
   for (auto &s : scene.spheres) {
@@ -93,4 +94,3 @@ Color trace_ray(const Scene& scene, const Point &dir, double t_min, double t_max
   }
   return WHITE;
 }
-

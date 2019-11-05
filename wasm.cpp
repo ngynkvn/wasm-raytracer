@@ -1,16 +1,15 @@
-#include <vector>
-#include <emscripten/bind.h>
 #include "defs.h"
-#include "scene.h"
-#include <string>
 #include "raytracer.h"
+#include <emscripten/bind.h>
+#include <string>
+#include <vector>
 
 using namespace emscripten;
 
-Scene scene_from_str(const std::string& str);
+Scene scene_from_str(const std::string &str);
 Point canvas_to_viewport(double x, double y) {
-    return Point(x * Vw / Cw, y * Vh / Ch, z_dist);
-  };
+  return Point(x * Vw / Cw, y * Vh / Ch, z_dist);
+};
 
 struct ColorStruct {
   double r;
@@ -66,7 +65,7 @@ val create_view() {
   return val(typed_memory_view(Cw * Ch * 4, buffer));
 }
 
-val create_view_from(const std::string& str) {
+val create_view_from(const std::string &str) {
   static uint8_t buffer[Cw * Ch * 4];
   size_t ptr = 0;
   Scene scene = scene_from_str(str);
@@ -83,15 +82,14 @@ val create_view_from(const std::string& str) {
   return val(typed_memory_view(Cw * Ch * 4, buffer));
 }
 
-
 EMSCRIPTEN_BINDINGS(m) {
   function("create_vec", &create_vec);
   function("trace", &trace);
   function("create_view", &create_view);
   function("create_view_from", &create_view_from);
   value_array<ColorStruct>("Color")
-    .element(&ColorStruct::r)
-    .element(&ColorStruct::g)
-    .element(&ColorStruct::b);
+      .element(&ColorStruct::r)
+      .element(&ColorStruct::g)
+      .element(&ColorStruct::b);
   register_vector<uint8_t>("ColorVec");
 }
