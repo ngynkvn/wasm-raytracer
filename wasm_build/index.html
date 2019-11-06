@@ -14,23 +14,13 @@
         <canvas width=600 height=600 id="canvas" style="float: left;"></canvas>
     </div>
     <div id="app" style="float: right;">
-
-        <textarea id="scene" rows=25 cols=30> {{scene}} </textarea>
-        <button @click="render">Go</button>
-        <div>
-            <select v-model="selected">
-                <option v-for="obj in objects" v-bind:value="obj">{{obj.name}}</option>
-            </select>
-            <div v-for="param in selected.params">
-                <label :for="param">{{param}}:</label> <input :id="param" v-model="attributes[param]"></input>
-            </div>
-            <button @click="add">Add</button>
-        </div>
-        <div>
-            <ul>
-                <li v-for="(o, index) in object_list">{{o}}<button @click="removeItem(index)">X</button></li>
-            </ul>
-        </div>
+        <select v-model="editor">
+            <option selected value="text-editor">Text</option>
+            <option value="ui-editor">UI</option>
+        </select>
+        <keep-alive>
+            <component :is="editor"></component>
+        </keep-alive>
         <p id="message"> </p>
     </div>
 
@@ -38,6 +28,7 @@
 </body>
 
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="./scene_text.js"></script>
 <script src="./vue.js"></script>
 <script src="./wasm_binds.js"></script>
 

@@ -7,64 +7,32 @@ const Light = {
     params: ['Origin', 'Intensity', 'Type']
 }
 
-var app = new Vue({
-    el: '#app',
-    data: {
-        scene: `; A sample scene to be parsed by my hand-written parser
-Camera {
-    0 0 0
-}
-Dimensions {
-    600 600
-}
-Viewport {
-    1 1 1
-}
-Sphere {
-    0 -1 3   ; Coords <x y z>
-    1        ; Radius
-    255 0 0  ; Color <R G B>
-}
-
-Sphere {
-    2 0 4
-    1
-    0 255 0
-}
-
-Sphere {
-    -2 0 4
-    1
-    0 0 255
-}
-
-Sphere {
-    0 -5001 0
-    5000
-    0 255 255
-}
-
-Light {
-    0 0 0
-    .2
-    AMBIENT
-}
-
-Light {
-    2 1 0
-    .6
-    POINT
-}
-
-Light {
-    1 4 4
-    .2
-    DIRECTIONAL
-}`,
-        objects: [Sphere, Light],
-        selected: Sphere,
-        attributes: {},
-        object_list: []
+Vue.component('text-editor', {
+    data: function () {
+        return {
+            scene: scene_text
+        }
+    },
+    methods: {
+        render: () => {
+            render();
+        }
+    },
+    template: `
+        <div>
+            <textarea id="scene" rows=25 cols=30> {{scene}} </textarea> 
+            <button @click="render">Go</button>
+        </div>
+    `
+});
+Vue.component('ui-editor', {
+    data: function () {
+        return {
+            objects: [Sphere, Light],
+            selected: Sphere,
+            attributes: {},
+            object_list: [],
+        }
     },
     methods: {
         render: () => {
@@ -79,5 +47,25 @@ Light {
         removeItem: function (index) {
             this.object_list.splice(index, 1);
         }
+    },
+    template: `
+    <div>
+        <select v-model="selected">
+            <option v-for="obj in objects" v-bind:value="obj">{{obj.name}}</option>
+        </select>
+        <div v-for="param in selected.params">
+            <label :for="param">{{param}}:</label> <input :id="param" v-model="attributes[param]"></input>
+        </div>
+        <button @click="add">Add</button>
+        <ul>
+            <li v-for="(o, index) in object_list">{{o}}<button @click="removeItem(index)">X</button></li>
+        </ul>
+    </div>
+    `
+});
+var app = new Vue({
+    el: '#app',
+    data: {
+        editor: 'text-editor',
     }
 })
