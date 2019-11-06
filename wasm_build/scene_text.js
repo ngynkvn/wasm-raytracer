@@ -49,7 +49,7 @@ Light {
     1 4 4
     .2
     DIRECTIONAL
-}`
+}`;
 
 const starting_objs = [
     {name: "Camera", Position: "0 0 0"},

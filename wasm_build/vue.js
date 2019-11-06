@@ -18,11 +18,8 @@ const Viewport = {
     name: 'Viewport',
     params: ['WHZ']
 }
-const NameToParamOrder = {
-    'Light': Light.params,
-    'Sphere': Sphere.params
-};
-
+const SceneObjects = [Sphere, Light, Camera, Dimensions, Viewport]
+const NameToParamOrder = Object.assign({}, ...SceneObjects.map(({ name, params }) => ({ [name]: params })))
 Vue.component('text-editor', {
     data: function () {
         return {
@@ -31,7 +28,7 @@ Vue.component('text-editor', {
         }
     },
     methods: {
-        render: function() {
+        render: function () {
             this.message = `Took ${render(this.scene)} ms`;
         }
     },
@@ -42,22 +39,22 @@ Vue.component('text-editor', {
             <p v-if="message">{{message}}</p>
         </div>
     `,
-    mounted: function() {
+    mounted: function () {
         this.render();
     }
 });
 
 function scene_encode(obj_list) {
     return obj_list.map(o => {
-        const {name} = o;
+        const { name } = o;
         return `${name} { ${NameToParamOrder[name].map(p => o[p]).join('\n')} }`
-    }).join('\n'));
+    }).join('\n');
 }
 
 Vue.component('ui-editor', {
     data: function () {
         return {
-            objects: [Sphere, Light],
+            objects: SceneObjects,
             selected: Sphere,
             attributes: {},
             object_list: [...starting_objs],
@@ -65,7 +62,7 @@ Vue.component('ui-editor', {
         }
     },
     methods: {
-        render: function() {
+        render: function () {
             this.message = `Took ${render(scene_encode(this.object_list))} ms`;
         },
         add: function () {
@@ -94,7 +91,7 @@ Vue.component('ui-editor', {
         <p v-if="message">{{message}}</p>
     </div>
     `,
-    mounted: function() {
+    mounted: function () {
         this.render();
     }
 });
