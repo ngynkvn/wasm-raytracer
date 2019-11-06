@@ -1,8 +1,16 @@
 var app = new Vue({
-    el: '#app', 
+    el: '#app',
     data: {
         scene: `; A sample scene to be parsed by my hand-written parser
-
+Camera {
+    0 0 0
+}
+Dimensions {
+    600 600
+}
+Viewport {
+    1 1 1
+}
 Sphere {
     0 -1 3   ; Coords <x y z>
     1        ; Radius
@@ -43,8 +51,7 @@ Light {
     1 4 4
     .2
     DIRECTIONAL
-}
-        `,
+}`,
     },
     methods: {
         render: () => {

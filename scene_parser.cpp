@@ -23,7 +23,7 @@ void SceneParser::scanToken() {
   while (pos != src.length() && isspace(src[pos])) {
     pos++;
   }
-  if (pos == src.length()) { // End of file.
+  if(pos == src.length()) { // End of file.
     return;
   }
   if (isalpha(src[pos])) {
@@ -121,6 +121,17 @@ Scene SceneParser::parse() {
     } else if (token.datum == "Camera") {
       auto camera = constructCamera();
       scene.camera = camera;
+    } else if (token.datum == "Dimensions") {
+      consume(TokenType::LParen);
+      scene.width = stoi(consume(TokenType::Number).datum);
+      scene.height = stoi(consume(TokenType::Number).datum);
+      consume(TokenType::RParen);
+    } else if (token.datum == "Viewport") {
+      consume(TokenType::LParen);
+      scene.ViewWidth = stoi(consume(TokenType::Number).datum);
+      scene.ViewHeight = stoi(consume(TokenType::Number).datum);
+      scene.z_dist = stod(consume(TokenType::Number).datum);
+      consume(TokenType::RParen);
     } else {
       throw std::runtime_error("Unexpected token recieved: " + token.datum);
     }
