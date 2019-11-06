@@ -49,13 +49,9 @@ function drawCanvasWViewStr(str) {
     }
     ctx.putImageData(imgData, 0, 0);
 }
-const text = document.getElementById('scene');
-const p = document.getElementById('message');
 
-const render = () => {
+const render = (scene) => {
     const start = Date.now();
-    drawCanvasWViewStr(text.value);
-    p.innerText = "Took " + (Date.now() - start) + " ms";
+    drawCanvasWViewStr(scene);
+    return (Date.now() - start);
 }
-
-Module.onRuntimeInitialized = () => { render() };
