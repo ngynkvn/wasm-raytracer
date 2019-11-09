@@ -26,6 +26,8 @@ make
 ```
 Outputs a binary named raytracer.
 
+Run with `./raytracer < test.scene`
+
 ## Web assembly
 Have the Emscripten SDK tools available to use from your terminal and simply run the two commands below: 
 ```
