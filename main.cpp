@@ -5,6 +5,11 @@
 #include <iostream>
 #include <png++/png.hpp>
 #include <sstream>
+#include <thread>
+#include <chrono> 
+#include <queue> 
+#include <png++/png.hpp>
+
 /**
  * Create the canvas, a scaling function,
  * then iterate over each pixel
@@ -34,11 +39,16 @@ int main() {
   auto CwO = Cw / 2;
   auto ChO = Ch / 2;
   auto start = system_clock::now();
+
+  unsigned int nThreads = std::thread::hardware_concurrency();
+  auto exec = [&](double x, double y) {
+    auto color = trace_ray(scene_camera, canvas_to_viewport(x, y), 0, 2000);
+    image[ChO - y - 1][x + CwO] = png::rgb_pixel(color.r, color.g, color.b);
+  };
   for (int x = -Cw / 2; x < Cw / 2; x++) {
     for (int y = -Ch / 2; y < Ch / 2; y++) {
-      auto dir = canvas_to_viewport(x, y);
-      auto color = trace_ray(s, dir, 0, 2000);
-      image[ChO - y - 1][x + CwO] = png::rgb_pixel(color.r, color.g, color.b);
+//      threads.emplace_back(exec, x, y);
+        exec(x, y);
     }
   }
   auto stop = system_clock::now();

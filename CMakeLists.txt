@@ -11,6 +11,7 @@ set(CMAKE_BUILD_TYPE Debug)
 add_executable(raytracer main.cpp raytracer.cpp ostreams.cpp scene_parser.cpp)
 
 ## Link libraries
+find_package(Threads REQUIRED)
 find_package(PNG REQUIRED)
 include_directories(${PNG_INCLUDE_DIR})
-target_link_libraries(raytracer ${PNG_LIBRARY})
+target_link_libraries(raytracer ${PNG_LIBRARY} Threads::Threads)
