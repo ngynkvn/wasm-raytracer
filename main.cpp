@@ -27,15 +27,15 @@ int main() {
 
   SceneParser sp(ss.str());
   Scene s = sp.parse();
-  png::image<png::rgb_pixel> image(Cw, Ch);
+  png::image<png::rgb_pixel> image(s.width, s.height);
   auto canvas_to_viewport = [&](double x, double y) {
-    return Point(x * Vw / Cw, y * Vh / Ch, z_dist);
+    return Point(x * s.ViewWidth / s.width, y * s.ViewHeight / s.height, s.z_dist);
   };
-  auto CwO = Cw / 2;
-  auto ChO = Ch / 2;
+  auto CwO = s.width / 2;
+  auto ChO =  s.height / 2;
   auto start = system_clock::now();
-  for (int x = -Cw / 2; x < Cw / 2; x++) {
-    for (int y = -Ch / 2; y < Ch / 2; y++) {
+  for (int x = -s.width / 2; x < s.width / 2; x++) {
+    for (int y = -s.height / 2; y < s.height / 2; y++) {
       auto dir = canvas_to_viewport(x, y);
       auto color = trace_ray(s, dir, 0, 2000);
       image[ChO - y - 1][x + CwO] = png::rgb_pixel(color.r, color.g, color.b);
