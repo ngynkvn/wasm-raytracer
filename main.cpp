@@ -14,7 +14,7 @@ int main() {
   using std::chrono::duration_cast;
   using std::chrono::milliseconds;
   using std::chrono::system_clock;
-
+  // Parse scene from STDIN, TODO: Extract to function
   std::string token;
   std::stringstream ss;
   while (std::getline(std::cin, token)) {
